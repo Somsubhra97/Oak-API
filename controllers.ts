@@ -12,12 +12,12 @@ interface Notes{
 
 const notesCollection = getDb().collection("notes");
 
-const getNotes = async (ctx: RouterContext) => {/////
+const getNotes = async (ctx: RouterContext) => {
    const notes = await notesCollection.find();
    ctx.response.body = notes;
 };
 
-const getSingleNote = async (ctx: RouterContext) => {//////
+const getSingleNote = async (ctx: RouterContext) => {
   const id = ctx.params.id; 
   const note = await notesCollection.findOne({ _id: ObjectId(id)});
 
@@ -38,7 +38,7 @@ const createNote = async (ctx: RouterContext) => {/////
   ctx.response.body = res;
 };
 
-const updateNote = async (ctx: RouterContext) => {/////
+const updateNote = async (ctx: RouterContext) => {
   if(!ctx.request.hasBody()){
     ctx.response.status = 404;
     ctx.response.body = { message: "Note does not exist" };
@@ -68,9 +68,9 @@ const updateNote = async (ctx: RouterContext) => {/////
   ctx.response.body = await notesCollection.findOne({ _id: ObjectId(id) });
 };
 
-const deleteNote = async (ctx: RouterContext) => {//////
+const deleteNote = async (ctx: RouterContext) => {
   const id = ctx.params.id;
-  const count = await notesCollection.deleteOne({ _id: { $oid: id } });
+  const count = await notesCollection.deleteOne({ _id: ObjectId(id) });
   if (!count) {
     ctx.response.status = 404;
     ctx.response.body = { message: "Note does not exist" };
